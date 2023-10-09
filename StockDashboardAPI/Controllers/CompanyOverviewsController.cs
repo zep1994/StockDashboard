@@ -1,19 +1,27 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using StockDashboardAPI.Data;
 using StockDashboardAPI.Models;
 using System.Text.Json;
 
 namespace StockDashboardAPI.Controllers
 {
-    public class CompanyOverviewsController : ControllerBase
+    public class CompanyOverviewsController : Controller
     {
-
+        private const string V = "gitev";
         private readonly AppDbContext _context;
+
         public CompanyOverviewsController(AppDbContext context)
         {
             _context = context;
         }
 
+        [HttpGet(V)]
+        public async Task<List<CompanyOverview>> GetAllCompanyOverviews()
+        {
+            return await _context.CompanyOverview.ToListAsync();
+        }
+                                                                                                                                                              
         [HttpPost("savecompany")]
         public async Task<IActionResult> SaveCompany([FromBody] CompanyOverview company)
         {
@@ -27,77 +35,35 @@ namespace StockDashboardAPI.Controllers
             return CreatedAtAction(nameof(SaveCompany), new { id = company.Id }, company);
         }
 
+        [HttpGet("GetSearch")]
+        public async Task<IActionResult> GetSearch()
+        {
+            var companyOverviews = await GetAllCompanyOverviews();
+            return Json(companyOverviews);
+        }
+
+
+        public async Task<IActionResult> OverviewI(string symbol) // Assuming you want to fetch data by a stock symbol
+        {
+            // Fetch the data from your database (or however you populate the model)
+            var companyOverview = await _context.CompanyOverview.FirstOrDefaultAsync(c => c.Symbol == symbol);
+
+            // Pass it to the view
+            return View(companyOverview);
+
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SaveCo(CompanyOverview model)
+        {
+            // Here you'd save the provided model to your database
+            // This is just a simplistic example. You'd likely want to do checks, handle updates vs. new entries, etc.
+            _context.Add(model);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Overview");
+        }
+
     }
 }
 
-//[HttpGet("{symbol}")]
-//public async Task<IActionResult> GetCompanyOverview(string symbol)
-//{
-//    var apikey = "flw875wo7jxeys29";
-//    var top_gainers_losers = "top_gainers_losers"; // example, replace with your desired symbol or make it dynamic
-//    var baseurl = "https://www.alphavantage.co/query";
-//    var endpoint = $"{baseurl}?function=overview&function={top_gainers_losers}&apikey={apikey}";
-
-//    using HttpClient client = new HttpClient();
-//    try
-//    {
-//        var response = await client.GetFromJsonAsync<CompanyOverview>(endpoint);
-//        if (response == null) return NotFound("Company overview not found.");
-
-//        return Ok(response);
-//    }
-//    catch (HttpRequestException e)
-//    {
-//        return BadRequest("Error fetching company overview: " + e.Message);
-//    }
-//}
-
-
-//using Microsoft.AspNetCore.Mvc;
-//using StockDashboardAPI.Data;
-//using StockDashboardAPI.Models;
-//using System.Threading.Tasks;
-//using System.Net.Http;
-//using System.Text.Json;
-//using System.Threading.Tasks;
-//using StockDashboardAPI.Dto;
-
-//namespace StockDashboardAPI.Controllers
-//{
-//    [ApiController]
-//    public class CompanyOverviewsController : ControllerBase
-//    {
-//        private readonly AppDbContext _context;
-
-//        public CompanyOverviewsController(AppDbContext context)
-//        {
-//            _context = context;
-//        }
-
-//        //public async task<iactionresult> index()
-//        //{
-//        //    var apikey = "flw875wo7jxeys29";
-//        //    var symbol = "aapl"; // example, replace with your desired symbol or make it dynamic
-//        //var endpoint = $"https://www.alphavantage.co/query?function=overview&symbol={symbol}&apikey={apikey}";
-
-//        //    var client = _clientfactory.createclient();
-//        //    var response = await client.getstringasync(endpoint);
-
-//        //    var overview = jsonserializer.deserialize<companyoverviewdto>(response);
-//        //    return ok(overview);
-//        //}
-
-//        // POST: api/CompanyOverviews
-
-//        [HttpPost]
-//        [Route("api/companyoverview")]
-//        public async Task<ActionResult<CompanyOverview>> PostCompanyOverview(CompanyOverview companyOverview)
-//        {
-//            _context.CompanyOverview.Add(companyOverview);
-//            await _context.SaveChangesAsync();
-
-//            return CreatedAtAction("GetCompanyOverview", new { id = companyOverview.Id }, companyOverview);
-//        }
-
-//    }
-//}

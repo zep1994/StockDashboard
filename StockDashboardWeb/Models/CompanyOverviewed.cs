@@ -1,8 +1,10 @@
-﻿namespace StockDashboardWeb.Models
+﻿using StockDashboardWeb.Dto;
+
+namespace StockDashboardWeb.Models
 {
     public class CompanyOverviewed
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
         public string Symbol { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
@@ -14,6 +16,6 @@
         public string DividendYield { get; set; }
         public string ProfitMargin { get; set; }
         public string Beta { get; set; }
-  
+     
     }
 }
