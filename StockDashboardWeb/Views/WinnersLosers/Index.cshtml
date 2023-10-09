@@ -1,4 +1,4 @@
-﻿@model WinLose
+﻿@model StockDashboardWeb.Models.WinLose
 
 <!-- Basic styles -->
 <style>
@@ -52,31 +52,3 @@
         </tr>
     </tbody>
 </table>
-
-@if (Model.WinLosers?.Count > 0)
-{
-    <h2>Related Stocks</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>Ticker</th>
-                <th>Price</th>
-                <th>Change Amount</th>
-                <th>Change Percentage</th>
-                <th>Volume</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var winLose in Model.WinLosers)
-            {
-                <tr>
-                    <td>@winLose.Ticker</td>
-                    <td>@winLose.Price</td>
-                    <td class="@(winLose.Change_amount >= 0 ? "positive" : "negative")">@winLose.Change_amount</td>
-                    <td>@winLose.Change_percentage</td>
-                    <td>@winLose.Volume</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
