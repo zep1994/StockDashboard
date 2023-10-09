@@ -1,20 +1,22 @@
-using Microsoft.AspNetCore.Builder;
-using System;
-using Microsoft.AspNetCore.Identity;
-using System.Text;
 using StockDashboardAPI.Data;
-using StockDashboardAPI.Models;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
+using ServiceStack;
+using Autofac.Core;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
-// Add services to the container.
+// Add services to the container
+builder.Services.AddHttpClient();
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("PostgreSQLConnection")));
 
+builder.Services.AddDbContext<AppDbContext>();
 
 var app = builder.Build();
 
@@ -22,8 +24,7 @@ var app = builder.Build();
 
 //app.UseHttpsRedirection();
 
-builder.Services.AddHttpClient();
-app.UseAuthorization();
+//app.UseAuthorization();
 
 app.MapControllers();
 

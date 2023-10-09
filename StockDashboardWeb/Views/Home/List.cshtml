@@ -1,0 +1,14 @@
+﻿@model IEnumerable<StockDashboardWeb.Models.CompanyOverviewed>
+<h2>List of Companies</h2>
+<ul>
+@foreach(var company in Model)
+{
+    <li>
+        @company.Name 
+        <form method="post" action="@Url.Action("Delete")" style="display:inline;">
+            @Html.HiddenFor(_ => company.Id)
+            <button type="submit">Delete</button>
+        </form>
+    </li>
+}
+</ul>

@@ -1,6 +1,6 @@
-﻿namespace StockDashboardAPI.Models
+﻿namespace StockDashboardWeb.Models
 {
-    public class CompanyOverview
+    public class CompanyOverviewed
     {
         public int Id { get; set; }
         public string Symbol { get; set; }
@@ -23,8 +23,8 @@
         public class MyEnumerator
         {
             int nIndex;
-            CompanyOverview collection;
-            public MyEnumerator(CompanyOverview coll)
+            CompanyOverviewed collection;
+            public MyEnumerator(CompanyOverviewed coll)
             {
                 collection = coll;
                 nIndex = -1;
