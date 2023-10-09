@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using StockDashboardWeb.Dto;
 using StockDashboardWeb.Models;
 using System.Net.Http;
 using System.Text;
@@ -6,28 +7,28 @@ using System.Text.Json;
 
 namespace StockDashboardWeb.Controllers
 {
-    public class CompanyOverviewController : Controller
-    {
-        private readonly HttpClient _httpClient;
-        private const string ALPHA_VANTAGE_API_KEY = "FLW875WO7JXEYS29";
-        private const string ALPHA_VANTAGE_BASE_URL = "https://www.alphavantage.co/query";
-        private const string BACKEND_API_URL = "http://yourbackendapi.com/api/companyoverviews"; // replace with your endpoint
+    //public class CompanyOverviewController : Controller
+    //{
+    //    private readonly HttpClient _httpClient;
+    //    private const string ALPHA_VANTAGE_API_KEY = "FLW875WO7JXEYS29";
+    //    private const string ALPHA_VANTAGE_BASE_URL = "https://www.alphavantage.co/query";
+    //    private const string BACKEND_API_URL = "http://yourbackendapi.com/api/companyoverviews"; // replace with your endpoint
 
-        public CompanyOverviewController(IHttpClientFactory httpClientFactory)
-        {
-            _httpClient = httpClientFactory.CreateClient();
-        }
+    //    public CompanyOverviewController(IHttpClientFactory httpClientFactory)
+    //    {
+    //        _httpClient = httpClientFactory.CreateClient();
+    //    }
 
-        [HttpPost("Home/search")]
-        public async Task<IActionResult> Search(string symbol)
-        {
-            using var client = new HttpClient();
-            var response = await client.GetStringAsync($"{ALPHA_VANTAGE_BASE_URL}?function=OVERVIEW&symbol={symbol}&apikey={ALPHA_VANTAGE_API_KEY}");
-            var companyOverview = JsonSerializer.Deserialize<CompanyOverviewed>(response);
+    //    [HttpPost("Home/search")]
+    //    public async Task<IActionResult> Search(string symbol)
+    //    {
+    //        using var client = new HttpClient();
+    //        var response = await client.GetStringAsync($"{ALPHA_VANTAGE_BASE_URL}?function=OVERVIEW&symbol={symbol}&apikey={ALPHA_VANTAGE_API_KEY}");
+    //        var companyOverview = JsonSerializer.Deserialize<CompanyOverviewedDto>(response);
 
-            // Pass the data to the view for display and provide an option to save.
-            return View("Home/Display", companyOverview);
-        }
+    //        // Pass the data to the view for display and provide an option to save.
+    //        return View("Home/Display", companyOverview);
+    //    }
 
         //[HttpPost]
         //public async Task<IActionResult> Save(CompanyOverviewed companyOverview)
@@ -45,23 +46,23 @@ namespace StockDashboardWeb.Controllers
         //    return View("Error");
         //}
 
-        [HttpGet("lost")]
-        public async Task<IActionResult> List()
-        {
-            using var client = new HttpClient();
-            var response = await client.GetStringAsync(BACKEND_API_URL);
-            var companyOverviews = JsonSerializer.Deserialize<List<CompanyOverviewed>>(response);
+        //[HttpGet("lost")]
+        //public async Task<IActionResult> List()
+        //{
+        //    using var client = new HttpClient();
+        //    var response = await client.GetStringAsync(BACKEND_API_URL);
+        //    var companyOverviews = JsonSerializer.Deserialize<List<CompanyOverviewed>>(response);
 
-            return View(companyOverviews);
-        }
+        //    return View(companyOverviews);
+        //}
 
-        [HttpPost]
-        public async Task<IActionResult> Delete(int id)
-        {
-            using var client = new HttpClient();
-            await client.DeleteAsync($"{BACKEND_API_URL}/{id}");
-            return RedirectToAction("List");
-        }
+        //[HttpPost]
+        //public async Task<IActionResult> Delete(int id)
+        //{
+        //    using var client = new HttpClient();
+        //    await client.DeleteAsync($"{BACKEND_API_URL}/{id}");
+        //    return RedirectToAction("List");
+        //}
 
         //[HttpGet("SaveToDb")]
         //public async Task<IActionResult> SaveToDb(string symbol)
@@ -127,7 +128,7 @@ namespace StockDashboardWeb.Controllers
         //    return View("CompanyOverview", coData);
         //}
 
-    }
+    
 
 
     //[HttpGet("GetGainsLosers")]
@@ -227,4 +228,5 @@ namespace StockDashboardWeb.Controllers
     //        }
     //    }
     //}
+
 }

@@ -8,6 +8,5 @@
         public int Change_amount { get; set; }
         public string Change_percentage { get; set;}
         public string Volume { get; set;}
-        public List<WinLose>? WinLosers { get; set; }
     }
 }
