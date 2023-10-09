@@ -1,3 +1,7 @@
 ﻿<h2>Company Overviews</h2>
 <a href="@Url.Action("Search")">Search for a Company</a>
-<a href="@Url.Action("List")">List All Companies</a>
+<h4>Search for a Company</h4>
+<form method="post">
+    <input type="text" name="symbol" placeholder="Enter company symbol" required />
+    <button type="submit">Search</button>
+</form>

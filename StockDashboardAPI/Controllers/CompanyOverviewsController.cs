@@ -14,9 +14,13 @@ namespace StockDashboardAPI.Controllers
             _context = context;
         }
 
-        [HttpPost("api/companny")]
+        [HttpPost("savecompany")]
         public async Task<IActionResult> SaveCompany([FromBody] CompanyOverview company)
         {
+            if (company == null)
+            {
+                return BadRequest("Invalid company data.");
+            }
             _context.CompanyOverview.Add(company);
             await _context.SaveChangesAsync();
             Console.WriteLine("Sucess");

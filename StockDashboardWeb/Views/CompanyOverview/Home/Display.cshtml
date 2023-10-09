@@ -1,13 +1,10 @@
-﻿@model StockDashboardWeb.Models.CompanyOverviewed
+﻿@model StockDashboardWeb.Models.CompanyOverview
 <!-- Display company details -->
 <h2>@Model.Name</h2>
 <p>@Model.Description</p>
-<!-- Other fields... -->
-
-<form method="post" action="@Url.Action("Save")">
+<form asp-action="savecompany" method="post">
     @Html.HiddenFor(model => model.Symbol)
     @Html.HiddenFor(model => model.Name)
     @Html.HiddenFor(model => model.Description)
-    <!-- Other hidden fields for data... -->
     <button type="submit">Save to Database</button>
 </form>

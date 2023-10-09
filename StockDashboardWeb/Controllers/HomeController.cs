@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Mvc;
 using StockDashboardAPI.Models;
 using StockDashboardWeb.Dto;
 using StockDashboardWeb.Models;
@@ -10,23 +11,22 @@ namespace StockDashboardWeb.Controllers
 {
     public class HomeController : Controller
     {
-      
 
-        [HttpGet]
+        [HttpGet("/")]
         public IActionResult Index()
         {
             return View();
         }
 
-        [HttpGet]
+        [HttpGet("search")]
         public IActionResult Search()
         {
-            return View();
+            return View("Search");
         }
 
 
 
-        [HttpPost]
+        [HttpPost("search")]
         public async Task<IActionResult> Search(string symbol)
         {
             var apiKey = "FLW875WO7JXEYS29";
@@ -34,37 +34,19 @@ namespace StockDashboardWeb.Controllers
 
             using var client = new HttpClient();
             var response = await client.GetStringAsync($"{baseUrl}?function=OVERVIEW&symbol={symbol}&apikey={apiKey}");
-            var companyOverview = JsonSerializer.Deserialize<CompanyOverviewDto>(response);
-
-            // Pass the data to the view for display and provide an option to save.
-            if (companyOverview != null)
-            {
-                Save(companyOverview);
-            }
-            
-            return View("Error");
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Save(CompanyOverviewDto companyOverview)
-        {
-            using var client = new HttpClient();
-
+            var companyOverview = JsonSerializer.Deserialize<StockDashboardAPI.Models.CompanyOverview>(response);
             var jsonContent = new StringContent(
                 JsonSerializer.Serialize(companyOverview),
                 Encoding.UTF8,
                 "application/json");
 
-            var response = await client.PostAsync("http://localhost:5211/api/companies", jsonContent);
-
-            if (response.IsSuccessStatusCode)
+            var results = await client.PostAsync("http://localhost:5237/savecompany", jsonContent);
+            if (results.IsSuccessStatusCode)
             {
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Home");
             }
 
-            // Handle error (display an error page or message)
-            return View("Error");
+            return View("Error", new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-
     }
 }

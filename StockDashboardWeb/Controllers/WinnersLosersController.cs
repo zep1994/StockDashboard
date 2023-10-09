@@ -1,48 +1,26 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using StockDashboardWeb.Models;
+using System.Text;
 using System.Text.Json;
 
 namespace StockDashboardWeb.Controllers
 {
-    public class WinnersLosersController : ControllerBase
+    public class WinnersLosersController : Controller
     {
-        private readonly HttpClient _httpClient;
+        private const string ApiKey = "FLW875WO7JXEYS29";
+        private const string BaseUrl = "https://www.alphavantage.co/query?function=TOP_GAINERS_LOSERS&apikey=" + ApiKey;
 
-        public WinnersLosersController(IHttpClientFactory httpClientFactory)
+
+        [HttpGet("Home/GetTopGainersLosers")]
+        public async Task<IActionResult> Index()
         {
-            _httpClient = httpClientFactory.CreateClient();
+            using var client = new HttpClient();
+            var response = await client.GetStringAsync(BaseUrl);
+            var data = JsonSerializer.Deserialize<WinLose>(response);
+
+            return View("Index");
         }
 
-        // Sample data for demonstration purposes
-        private static readonly List<WinLose> SampleData = new List<WinLose>
-        {
-            new WinLose { Id = 1, Ticker = "AAPL", Price = "150.50", Change_amount = 2, Change_percentage = "+1.5%", Volume = "10M" },
-            new WinLose { Id = 2, Ticker = "GOOGL", Price = "2800.70", Change_amount = -30, Change_percentage = "-1.1%", Volume = "8M" },
-            // ... add more sample data
-        };
-
-        [HttpGet("CheckWinLoss")]
-        public IActionResult Index()
-        {
-            return StatusCode(200);
-        }
-
-        [HttpPost("GetTopGainersLosers")]
-        public async Task<IActionResult> GetTopGainersLosers()
-        {
-            var apiKey = "FLW875WO7JXEYS29";
-            var baseURL = "https://www.alphavantage.co/query";
-            var endpoint = $"{baseURL}?function=TOP_GAINERS_LOSERS&apikey={apiKey}";
-
-            if (string.IsNullOrEmpty(endpoint))
-                return BadRequest("API key is required.");
-
-            var response = await _httpClient.GetAsync(endpoint);
-            response.EnsureSuccessStatusCode();
-
-            using var responseStream = await response.Content.ReadAsStreamAsync();
-            var responseData = await JsonSerializer.DeserializeAsync<WinLose[]>(responseStream);
-            return Ok(responseData);
-        }
     }
 }

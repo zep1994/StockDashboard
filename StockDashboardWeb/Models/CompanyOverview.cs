@@ -1,4 +1,4 @@
-﻿namespace StockDashboardAPI.Models
+﻿namespace StockDashboardWeb.Models
 {
     public class CompanyOverview
     {
