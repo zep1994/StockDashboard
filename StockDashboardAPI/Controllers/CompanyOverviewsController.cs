@@ -43,6 +43,27 @@ namespace StockDashboardAPI.Controllers
         }
 
 
+        public async Task<IActionResult> OverviewI(string symbol) // Assuming you want to fetch data by a stock symbol
+        {
+            // Fetch the data from your database (or however you populate the model)
+            var companyOverview = await _context.CompanyOverview.FirstOrDefaultAsync(c => c.Symbol == symbol);
+
+            // Pass it to the view
+            return View(companyOverview);
+
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SaveCo(CompanyOverview model)
+        {
+            // Here you'd save the provided model to your database
+            // This is just a simplistic example. You'd likely want to do checks, handle updates vs. new entries, etc.
+            _context.Add(model);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Overview");
+        }
+
     }
 }
 

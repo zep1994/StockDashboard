@@ -25,9 +25,4 @@ if (!app.Environment.IsDevelopment())
 
 app.MapControllers();
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{action=Index}/{id?}",
-    defaults: new { controller = "Home", action = "Index" });
-
 app.Run();
