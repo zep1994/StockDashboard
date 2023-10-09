@@ -1,0 +1,60 @@
+﻿@model StockDashboardWeb.Models.CompanyOverviewed
+<!-- Display company details -->
+<h2>@Model.Name</h2>
+<p>@Model.Description</p>
+<!-- Other fields... -->
+
+<form method="post" action="@Url.Action("Save")">
+    @Html.HiddenFor(model => model.Symbol)
+    @Html.HiddenFor(model => model.Name)
+    @Html.HiddenFor(model => model.Description)
+    <!-- Other hidden fields for data... -->
+    <button type="submit">Save to Database</button>
+</form>
+
+
+
+@* @model StockDashboardWeb.Models.CompanyOverviewed
+
+<h2>Company Overview</h2>
+
+<!-- Displaying the data -->
+<div>
+    <h2>@Model.Name</h2>
+    <!-- Other properties... -->
+
+    <!-- Button to save the data to the DB -->
+    <form asp-action="FetchCompanyOverview" method="post">
+        <label> for="Symbol" Enter Stock Symbold"</label>
+        <input type="text" id="symbol" name="Symbol" value="@Model.Symbol" />
+        <button type="submit">Save to Wishlist</button>
+    </form>
+</div>
+
+
+@if (Model != null)
+{
+    <div>
+        <strong>Symbol:</strong> @Model.Symbol <br />
+        <strong>Name:</strong> @Model.Name <br />
+        <strong>Exchange:</strong> @Model.Exchange <br />
+        <strong>Sector:</strong> @Model.Sector <br />
+        <strong>Industry:</strong> @Model.Industry <br />
+        <strong>PERatio:</strong> @Model.PERatio <br />
+        <strong>EPS:</strong> @Model.EPS <br />
+        <strong>DividendYield:</strong> @Model.DividendYield <br />
+        <strong>ProfitMargin:</strong> @Model.ProfitMargin <br />
+        <strong>Beta:</strong> @Model.Beta <br />
+        <strong>Description:</strong> @Model.Description <br />
+        <form asp-action="SaveToDb" method="post">
+            <button type="submit">Save to DB</button>
+        </form>
+    </div>
+}
+
+@if (ViewBag.ErrorMessage != null)
+{
+    <div class="error">
+        @ViewBag.ErrorMessage
+    </div>
+} *@

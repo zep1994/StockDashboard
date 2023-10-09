@@ -1,6 +1,6 @@
-﻿namespace StockDashboardWeb.Models
+﻿namespace StockDashboardWeb.Dto
 {
-    public class CompanyOverview
+    public class CompanyOverviewDto
     {
         public string Symbol { get; set; }
         public string Name { get; set; }
