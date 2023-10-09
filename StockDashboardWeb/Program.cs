@@ -1,7 +1,7 @@
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-//builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews();
 builder.Services.AddHttpClient();
 builder.Services.AddMvc();
 builder.Services.AddControllers();
@@ -27,6 +27,7 @@ app.MapControllers();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{action=Index}/{id?}",
+    defaults: new { controller = "Home", action = "Index" });
 
 app.Run();

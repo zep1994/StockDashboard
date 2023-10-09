@@ -1,20 +1,17 @@
-﻿@* @model StockDashboardWeb.Models.CompanyOverviewed
+﻿@model StockDashboardWeb.Models.CompanyOverviewed
 <!-- Display company details -->
 <h2>@Model.Name</h2>
 <p>@Model.Description</p>
 <!-- Other fields... -->
 
-<form method="post" action="@Url.Action("Save")">
+<form method="post" action="@Url.Action("savecompany")">
     @Html.HiddenFor(model => model.Symbol)
     @Html.HiddenFor(model => model.Name)
     @Html.HiddenFor(model => model.Description)
     <!-- Other hidden fields for data... -->
     <button type="submit">Save to Database</button>
 </form>
- *@
 
-
-@* @model StockDashboardWeb.Models.CompanyOverviewed
 
 <h2>Company Overview</h2>
 
@@ -24,7 +21,7 @@
     <!-- Other properties... -->
 
     <!-- Button to save the data to the DB -->
-    <form asp-action="FetchCompanyOverview" method="post">
+    <form asp-action="createsearch" method="post">
         <label> for="Symbol" Enter Stock Symbold"</label>
         <input type="text" id="symbol" name="Symbol" value="@Model.Symbol" />
         <button type="submit">Save to Wishlist</button>
@@ -46,15 +43,8 @@
         <strong>ProfitMargin:</strong> @Model.ProfitMargin <br />
         <strong>Beta:</strong> @Model.Beta <br />
         <strong>Description:</strong> @Model.Description <br />
-        <form asp-action="SaveToDb" method="post">
+        <form asp-action="savecompany" method="post">
             <button type="submit">Save to DB</button>
         </form>
     </div>
 }
-
-@if (ViewBag.ErrorMessage != null)
-{
-    <div class="error">
-        @ViewBag.ErrorMessage
-    </div>
-} *@

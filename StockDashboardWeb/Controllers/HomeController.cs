@@ -15,38 +15,13 @@ namespace StockDashboardWeb.Controllers
         [HttpGet("/")]
         public IActionResult Index()
         {
-            return View();
+            return View("List");
         }
 
-        [HttpGet("search")]
-        public IActionResult Search()
+        [HttpGet("model")] public IActionResult Models()
         {
-            return View("Search");
+            return Ok(200);
         }
 
-
-
-        [HttpPost("search")]
-        public async Task<IActionResult> Search(string symbol)
-        {
-            var apiKey = "FLW875WO7JXEYS29";
-            var baseUrl = "https://www.alphavantage.co/query";
-
-            using var client = new HttpClient();
-            var response = await client.GetStringAsync($"{baseUrl}?function=OVERVIEW&symbol={symbol}&apikey={apiKey}");
-            var companyOverview = JsonSerializer.Deserialize<StockDashboardAPI.Models.CompanyOverview>(response);
-            var jsonContent = new StringContent(
-                JsonSerializer.Serialize(companyOverview),
-                Encoding.UTF8,
-                "application/json");
-
-            var results = await client.PostAsync("http://localhost:5237/savecompany", jsonContent);
-            if (results.IsSuccessStatusCode)
-            {
-                return RedirectToAction("Index", "Home");
-            }
-
-            return View("Error", new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
     }
 }

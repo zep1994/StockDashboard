@@ -1,0 +1,34 @@
+﻿@model StockDashboardWeb.Models.CompanyOverviewed
+
+
+@{
+    ViewData["Title"] = "Company Overview";
+}
+
+<!-- Bootstrap styling -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+<div class="container mt-5">
+    <h1>@Model.Name</h1>
+    <p>@Model.Description</p>
+    <!-- ... other fields from the model ... -->
+
+    <button id="saveButton" class="btn btn-primary mt-4">Save Company</button>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script>
+    $("#saveButton").click(function () {
+        $.ajax({
+            url: '/api/SaveCompany', // Update with your Web API endpoint
+            method: 'POST',
+            data: @Json.Serialize(Model), // Send the entire model to the Web API
+            success: function () {
+                alert('Company saved successfully!');
+            },
+            error: function () {
+                alert('Failed to save the company. Try again.');
+            }
+        });
+    });
+</script>
